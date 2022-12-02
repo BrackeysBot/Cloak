@@ -5,9 +5,9 @@ services:
     build: https://github.com/BrackeysBot/Cloak.git#main
     volumes:
       - type: bind
-        source: ./logs
+        source: /var/log/brackeysbot/cloak
         target: /app/logs
       - type: bind
-        source: ./data
+        source: /etc/brackeysbot/cloak
         target: /app/data
     restart: always
