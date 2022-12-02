@@ -2,7 +2,7 @@ version: '3.9'
 services:
   cloak:
     container_name: Cloak
-    build: .
+    build: https://github.com/BrackeysBot/Cloak.git
     volumes:
       - type: bind
         source: ./logs
