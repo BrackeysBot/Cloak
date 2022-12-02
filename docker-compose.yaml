@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  cloak:
+    container_name: Cloak
+    build: .
+    volumes:
+      - type: bind
+        source: ./Cloak/bin/Debug/net6.0/logs
+        target: /app/logs
+      - type: bind
+        source: ./Cloak/bin/Debug/net6.0/data
+        target: /app/data
+    restart: always
+    env_file:
+      - .env
