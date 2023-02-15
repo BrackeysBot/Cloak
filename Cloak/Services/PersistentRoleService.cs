@@ -69,6 +69,21 @@ internal sealed class PersistentRoleService : BackgroundService
     }
 
     /// <summary>
+    ///     Gets a read-only view of the persistent roles for a guild.
+    /// </summary>
+    /// <param name="guild">The guild whose persistent roles to return.</param>
+    /// <returns>A read-only collection of <see cref="DiscordRole" /> objects.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="guild" /> is <see langword="null" />.</exception>
+    public IReadOnlyCollection<DiscordRole> GetPersistentRoles(DiscordGuild guild)
+    {
+        ArgumentNullException.ThrowIfNull(guild);
+
+        return _persistentRoles.TryGetValue(guild, out HashSet<DiscordRole>? hashSet)
+            ? hashSet.ToArray()
+            : ArraySegment<DiscordRole>.Empty;
+    }
+
+    /// <summary>
     ///     Returns a value indicating whether the specified role is considered a persistent role.
     /// </summary>
     /// <param name="guild">The guild in which the persistence check should be performed.</param>

@@ -1,7 +1,9 @@
-﻿using Cloak.Services;
+﻿using System.Text;
+using Cloak.Services;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using DSharpPlus.SlashCommands.Attributes;
+using Humanizer;
 
 namespace Cloak.Commands;
 
@@ -41,6 +43,35 @@ internal sealed class PersistentRoleCommand : ApplicationCommandModule
         {
             embed.WithColor(DiscordColor.Orange);
             embed.WithDescription($"The {role.Mention} role is already persistent.");
+        }
+
+        await context.CreateResponseAsync(embed).ConfigureAwait(false);
+    }
+
+    [SlashCommand("list", "Lists the current persistent roles.", false)]
+    [SlashRequireGuild]
+    public async Task ListAsync(InteractionContext context)
+    {
+        var embed = new DiscordEmbedBuilder();
+        embed.WithTitle("Persistent roles");
+
+        IReadOnlyCollection<DiscordRole> roles = _persistentRoleService.GetPersistentRoles(context.Guild);
+        if (roles.Count == 0)
+        {
+            embed.WithColor(DiscordColor.Orange);
+            embed.WithDescription("No persistent roles have been set for this guild.");
+        }
+        else
+        {
+            embed.WithColor(DiscordColor.Green);
+            var builder = new StringBuilder();
+
+            foreach (DiscordRole role in roles)
+            {
+                builder.AppendLine($"- {role.Mention} ({role.Id})");
+            }
+
+            embed.WithDescription($"{"persistent role".ToQuantity(roles.Count)} currently defined:\n\n{builder}");
         }
 
         await context.CreateResponseAsync(embed).ConfigureAwait(false);
