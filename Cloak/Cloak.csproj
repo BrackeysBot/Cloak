@@ -37,8 +37,8 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
-        <PackageReference Include="NLog" Version="5.1.0"/>
-        <PackageReference Include="NLog.Extensions.Logging" Version="5.2.0"/>
+        <PackageReference Include="NLog" Version="5.1.1"/>
+        <PackageReference Include="NLog.Extensions.Logging" Version="5.2.1"/>
         <PackageReference Include="X10D" Version="3.2.0-nightly.144"/>
         <PackageReference Include="X10D.DSharpPlus" Version="3.2.0-nightly.144"/>
         <PackageReference Include="X10D.Hosting" Version="3.2.0-nightly.144"/>
