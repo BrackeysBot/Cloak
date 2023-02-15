@@ -28,8 +28,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DSharpPlus" Version="4.3.0-nightly-01189"/>
-        <PackageReference Include="DSharpPlus.SlashCommands" Version="4.3.0-nightly-01189"/>
+        <PackageReference Include="DSharpPlus" Version="4.3.0"/>
+        <PackageReference Include="DSharpPlus.SlashCommands" Version="4.3.0"/>
         <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
             <PrivateAssets>all</PrivateAssets>
