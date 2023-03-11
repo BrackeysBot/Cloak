@@ -8,6 +8,11 @@
 <a href="https://github.com/BrackeysBot/Cloak/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/BrackeysBot/Cloak" alt="MIT License" title="MIT License"></a>
 </p>
 
+## IMPORTANT: UPCOMING CHANGE TO REPOSITORY
+In February 2023, Discord integrated self-roles natively into Discord via [Community Onboarding](https://support.discord.com/hc/en-us/articles/11074987197975-Community-Onboarding-FAQ), which has made the majority of this bot's purpose obsolete. At a date TBA, a new bot under the same name will be purposed to handle activity roles in the [Brackeys Community Discord server](https://discord.gg/brackeys) and will remain closed source to prevent gaming the system. As a result this repository will move to a new name and be publicly archived.
+
+If you have forked or cloned this repository, be aware that your upstream URL will need to change when this happens.
+
 ## About
 Cloak is a Discord bot which provides features to allow members to assign self-roles, as well as for staff members to designate certain roles as "persistent",
 such that the roles are automatically reapplied to members who previously had them in the even that they leave and rejoin the guild.
