@@ -207,6 +207,8 @@ internal sealed class SelfRoleService : BackgroundService
     {
         if (!TryGetSelfRole(guild, role, out SelfRole? selfRole)) return;
 
+        _selfRoles[guild].Remove(selfRole);
+
         await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<CloakContext>();
         context.Remove(selfRole);
