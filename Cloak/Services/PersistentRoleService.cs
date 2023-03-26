@@ -6,7 +6,7 @@ using Humanizer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace Cloak.Services;
 
@@ -15,7 +15,7 @@ namespace Cloak.Services;
 /// </summary>
 internal sealed class PersistentRoleService : BackgroundService
 {
-    private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<PersistentRoleService> _logger;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly DiscordClient _discordClient;
     private readonly Dictionary<DiscordGuild, HashSet<DiscordRole>> _persistentRoles = new();
@@ -23,10 +23,12 @@ internal sealed class PersistentRoleService : BackgroundService
     /// <summary>
     ///     Initializes a new instance of the <see cref="PersistentRoleService" /> class.
     /// </summary>
+    /// <param name="logger">The logger.</param>
     /// <param name="scopeFactory">The scope factory.</param>
     /// <param name="discordClient">The Discord client.</param>
-    public PersistentRoleService(IServiceScopeFactory scopeFactory, DiscordClient discordClient)
+    public PersistentRoleService(ILogger<PersistentRoleService> logger, IServiceScopeFactory scopeFactory, DiscordClient discordClient)
     {
+        _logger = logger;
         _scopeFactory = scopeFactory;
         _discordClient = discordClient;
     }
@@ -167,7 +169,7 @@ internal sealed class PersistentRoleService : BackgroundService
             context.RemoveRange(rolesToRemove);
             await context.SaveChangesAsync().ConfigureAwait(false);
 
-            Logger.Info($"Removed {"roles".ToQuantity(rolesToRemove.Count)} from the database that mapped to invalid roles");
+            _logger.LogInformation("Removed {Quantity} from the database that mapped to invalid roles", "roles".ToQuantity(rolesToRemove.Count));
         }
     }
 

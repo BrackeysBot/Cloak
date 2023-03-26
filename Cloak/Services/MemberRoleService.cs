@@ -5,13 +5,11 @@ using DSharpPlus.EventArgs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NLog;
 
 namespace Cloak.Services;
 
 internal sealed class MemberRoleService : BackgroundService
 {
-    private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly DiscordClient _discordClient;
     private readonly PersistentRoleService _persistentRoleService;
