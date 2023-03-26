@@ -6,7 +6,7 @@ using DSharpPlus.EventArgs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace Cloak.Services;
 
@@ -15,7 +15,7 @@ namespace Cloak.Services;
 /// </summary>
 internal sealed class SelfRoleService : BackgroundService
 {
-    private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<SelfRoleService> _logger;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly DiscordClient _discordClient;
     private readonly Dictionary<DiscordGuild, Dictionary<SelfRole, DiscordRole>> _selfRoles = new();
@@ -23,10 +23,12 @@ internal sealed class SelfRoleService : BackgroundService
     /// <summary>
     ///     Initializes a new instance of the <see cref="SelfRoleService" /> class.
     /// </summary>
+    /// <param name="logger">The logger.</param>
     /// <param name="scopeFactory">The service scope factory.</param>
     /// <param name="discordClient">The Discord client.</param>
-    public SelfRoleService(IServiceScopeFactory scopeFactory, DiscordClient discordClient)
+    public SelfRoleService(ILogger<SelfRoleService> logger, IServiceScopeFactory scopeFactory, DiscordClient discordClient)
     {
+        _logger = logger;
         _scopeFactory = scopeFactory;
         _discordClient = discordClient;
     }
@@ -58,7 +60,7 @@ internal sealed class SelfRoleService : BackgroundService
 
         selfRoles[selfRole] = role;
 
-        Logger.Info($"Added self role {role} to group {group ?? "<none>"}");
+        _logger.LogInformation("Added self role {Role} to group {Group}", role, group ?? "<none>");
         return selfRole;
     }
 
@@ -80,7 +82,7 @@ internal sealed class SelfRoleService : BackgroundService
         context.Update(selfRole);
         await context.SaveChangesAsync().ConfigureAwait(false);
 
-        Logger.Info($"Edited self role {role} with new group {group ?? "<none>"}");
+        _logger.LogInformation("Edited self role {Role} with new group {Group}", role, group ?? "<none>");
         return selfRole;
     }
 
@@ -205,12 +207,14 @@ internal sealed class SelfRoleService : BackgroundService
     {
         if (!TryGetSelfRole(guild, role, out SelfRole? selfRole)) return;
 
+        _selfRoles[guild].Remove(selfRole);
+
         await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<CloakContext>();
         context.Remove(selfRole);
         await context.SaveChangesAsync().ConfigureAwait(false);
 
-        Logger.Info($"Removed self role {role}");
+        _logger.LogInformation("Removed self role {Role}", role);
     }
 
     /// <summary>
