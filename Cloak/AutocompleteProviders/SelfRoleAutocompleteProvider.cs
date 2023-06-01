@@ -14,7 +14,20 @@ internal sealed class SelfRoleAutocompleteProvider : IAutocompleteProvider
     public Task<IEnumerable<DiscordAutoCompleteChoice>> Provider(AutocompleteContext context)
     {
         var roleService = context.Services.GetRequiredService<SelfRoleService>();
-        return Task.FromResult(roleService.GetDiscordRoles(context.Guild)
-            .Select(role => new DiscordAutoCompleteChoice(role.Name, role.Id.ToString())));
+        IReadOnlyList<DiscordRole> roles = roleService.GetDiscordRoles(context.Guild);
+        var choices = new List<DiscordAutoCompleteChoice>();
+
+        string? query = context.OptionValue?.ToString()?.Trim();
+        bool isQueryEmpty = string.IsNullOrWhiteSpace(query);
+
+        foreach (DiscordRole role in roles)
+        {
+            if (isQueryEmpty || role.Name.Contains(query!, StringComparison.OrdinalIgnoreCase))
+            {
+                choices.Add(new DiscordAutoCompleteChoice(role.Name, role.Id.ToString()));
+            }
+        }
+
+        return Task.FromResult(choices.AsEnumerable());
     }
 }

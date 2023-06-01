@@ -15,6 +15,19 @@ internal sealed class GroupAutocompleteProvider : IAutocompleteProvider
     {
         var roleService = context.Services.GetRequiredService<SelfRoleService>();
         IReadOnlyList<string> groups = roleService.GetGroups(context.Guild);
-        return Task.FromResult(groups.Select(g => new DiscordAutoCompleteChoice(g, g)));
+        var choices = new List<DiscordAutoCompleteChoice>();
+
+        string? query = context.OptionValue?.ToString()?.Trim();
+        bool isQueryEmpty = string.IsNullOrWhiteSpace(query);
+
+        foreach (string group in groups)
+        {
+            if (isQueryEmpty || group.Contains(query!, StringComparison.OrdinalIgnoreCase))
+            {
+                choices.Add(new DiscordAutoCompleteChoice(group, group));
+            }
+        }
+
+        return Task.FromResult(choices.AsEnumerable());
     }
 }
