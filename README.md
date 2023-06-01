@@ -3,7 +3,7 @@
 <p align="center"><i>A Discord bot for managing self-roles and persistent roles.</i></p>
 <p align="center">
 <a href="https://github.com/BrackeysBot/Cloak/releases"><img src="https://img.shields.io/github/v/release/BrackeysBot/Cloak?include_prereleases"></a>
-<a href="https://github.com/BrackeysBot/Cloak/actions?query=workflow%3A%22.NET%22"><img src="https://img.shields.io/github/workflow/status/BrackeysBot/Cloak/.NET" alt="GitHub Workflow Status" title="GitHub Workflow Status"></a>
+<a href="https://github.com/BrackeysBot/Cloak/actions?query=workflow%3A%22.NET%22"><img src="https://img.shields.io/github/actions/workflow/status/BrackeysBot/Cloak/dotnet.yml" alt="GitHub Workflow Status" title="GitHub Workflow Status"></a>
 <a href="https://github.com/BrackeysBot/Cloak/issues"><img src="https://img.shields.io/github/issues/BrackeysBot/Cloak" alt="GitHub Issues" title="GitHub Issues"></a>
 <a href="https://github.com/BrackeysBot/Cloak/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/BrackeysBot/Cloak" alt="MIT License" title="MIT License"></a>
 </p>
